@@ -25,6 +25,7 @@ $default_controller = 'index';
 $default_action = 'index';
 $default_error_controller = 'error';
 
+
 /* Include Path */
 set_include_path( __DIR__ . '/../controller' . PATH_SEPARATOR .  __DIR__ . '/../view' . PATH_SEPARATOR . get_include_path() );
 
@@ -40,20 +41,35 @@ spl_autoload_register(function($class){
 	}
 });
 
-@list($controller, $action) = explode('/', $_SERVER['PATH_INFO']);
-$controller	= !preg_match('/^\w*$/', $controller) ? $default_error_controller : $controller;
-$action		= trim($action) ?: $default_controller;
-$controller	= trim($controller) ?: $default_action;
 
-$view = new df_View();
-$view->controller = $controller;
-$view->action = $action;
+try
+{
+	$request	= new off_Request($_SERVER['PATH_INFO'], $default_controller, $default_action);
 
-$obj_name	= ucfirst(strtolower($controller)).'Controller';
-$obj_name	= !class_exists ( $obj_name, true ) ? ucfirst($default_error_controller).'Controller' : $obj_name;
-$obj		= new $obj_name();
+	$obj_name	= ucfirst(strtolower($controller)).'Controller';
+	$obj_name	= !class_exists ( $obj_name, true ) ? ucfirst($default_error_controller).'Controller' : $obj_name;
+	$obj		= new $obj_name();
 
-$obj->dispatch($controller, $action, $view);
+	$obj->dispatch($request);
+}
+catch (Exception $e)
+{
+	try
+	{
+		$obj->handleError($e);
+	}
+	catch (Exception $e)
+	{
+		$errCtrlClsName = ucfirst($default_error_controller).'Controller';
+		if (!class_exists($errCtrlClsName))
+		{
+			throw $e; // retrhrow
+		}
+
+		$errCtrl = new $errCtrlClsName();
+		$errCtrl->handleError($e);
+	}
+}
 
 exit;
 //
@@ -61,38 +77,44 @@ exit;
 //
 
 
+class off_PageNotFoundException extends Exception
+{
+}
+
 /**
  * Base controller class.
  *
  * Use this class as the base for other controllers
  */
-class df_Controller
+class off_Controller
 {
 	/**
-	 * @var df_View
+	 * @var off_View
 	 */
 	protected $view;
 
 	/**
 	 *
-	 * @param string $controller
-	 * @param string $action
-	 * @param df_View $view
+	 * @param off_Request $req
 	 */
-	public function dispatch($controller, $action,  $view)
+	public function dispatch(off_Request $req,  off_View $view)
 	{
-		$this->view = $view;
+		$this->view = new off_View();
 
+		$action = $req->getAction();
+		$controller = $req->getController();
+
+		//
 		$method = $action.'Action';
+		if ( !method_exists($this, $method) )
+		{
+			throw new off_PageNotFoundException("$controller/$action");
+		}
 
 		//
 		$this->init();
 
-		//
-		if ( method_exists($this, $method) )
-		{
-			$this->$method();
-		}
+		$this->$method();
 
 		//
 		if (!$this->view->is_set('content'))
@@ -108,17 +130,22 @@ class df_Controller
 		echo $this->view->fetch('template.php');
 	}
 
+	public function handleError($e)
+	{
+		throw $e;
+	}
+
 	/**
 	 * Method to place initialization code.
 	 *
-	 * This method is run before the action
+	 * This method runs before any action
 	 */
 	public function init()
 	{
 	}
 }
 
-class df_View
+class off_View
 {
 	/**
 	 * @var array
@@ -164,4 +191,50 @@ class df_View
 	}
 }
 
+class off_Request
+{
+	protected $_controller;
+	protected $_action;
+
+	public function __construct($path_info, $def_controller, $def_action)
+	{
+		@list($controller, $action) = explode('/', trim($_SERVER['PATH_INFO'], '/'));
+		if (!preg_match('/^\w*$/', $controller))
+		{
+			throw new off_PageNotFoundException("$controller/$action");
+		}
+		$this->_action		= trim($action) ?: $def_controller;
+		$this->controller	= trim($controller) ?: $def_action;
+	}
+
+	public function getController()
+	{
+		return $this->_controller;
+	}
+
+	public function getAction()
+	{
+		return $this->_action;
+	}
+
+	public function getParam($k, $def_val=null)
+	{
+		if (!array_key_exists($k, $_GET))
+		{
+			return $def_val;
+		}
+
+		return $_GET[$k];
+	}
+
+	public function getPost($k, $def_val=null)
+	{
+		if (!array_key_exists($k, $_POST))
+		{
+			return $def_val;
+		}
+
+		return $_POST[$k];
+	}
+}
 

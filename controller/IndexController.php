@@ -1,5 +1,5 @@
 <?php
-class IndexController extends df_Controller
+class IndexController extends off_Controller
 {
 	public function indexAction()
 	{

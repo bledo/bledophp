@@ -1,7 +1,7 @@
 <?php
-class ErrorController extends df_Controller
+class ErrorController extends off_Controller
 {
-	public function dispatch($controller, $action,  $view)
+	public function handleError($e)
 	{
 		$view->content = 'Error loading : ' . "$controller/$action";
 		echo $view->fetch('template.php');
