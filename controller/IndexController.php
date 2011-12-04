@@ -1,8 +1,12 @@
 <?php
-class IndexController extends off_Controller
+class IndexController extends \off\ActionController
 {
 	public function indexAction()
 	{
-		$this->view->content = 'Hello';
+		$resp = new \off\ViewResponse();
+
+		$resp->view->content = 'hello';
+
+		return $resp;
 	}
 }

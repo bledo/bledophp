@@ -1,9 +1,10 @@
 <?php
-class ErrorController extends off_Controller
+class ErrorController extends \off\ActionController
 {
-	public function handleError($e)
+	public function errorResponse($req, $e)
 	{
-		$view->content = 'Error loading : ' . "$controller/$action";
-		echo $view->fetch('template.php');
+		$resp = new ViewResponse();
+		$resp->view->content = (string) $e;
+		return $resp;
 	}
 }
