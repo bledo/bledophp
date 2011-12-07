@@ -1,12 +1,10 @@
 <?php
-class IndexController extends \off\ActionController
+class IndexController extends \off\controller\ActionController
 {
 	public function indexAction()
 	{
-		$resp = new \off\ViewResponse();
-
-		$resp->view->content = 'hello';
-
+		$resp = new \off\response\PhtmlResponse();
+		//$resp->view->content = print_r($this->request);
 		return $resp;
 	}
 }
