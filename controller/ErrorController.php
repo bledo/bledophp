@@ -1,10 +1,21 @@
 <?php
-class ErrorController extends \off\ActionController
+use off\controller\ActionController;
+use off\request\Request;
+use off\response\PhtmlResponse;
+
+class ErrorController extends ActionController
 {
-	public function errorResponse($req, $e)
+	public function errorResponse(Request $req, \Exception $e)
 	{
-		$resp = new ViewResponse();
-		$resp->view->content = (string) $e;
+		$resp = new PhtmlResponse();
+		try {
+			throw $e;
+	       	}
+		catch (Exception $e)
+		{
+			$resp->view->content = (string) $e->getMessage();
+		}
+
 		return $resp;
 	}
 }

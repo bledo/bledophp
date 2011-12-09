@@ -24,17 +24,6 @@ along with One File Framework. If not, see <http://www.gnu.org/licenses/>.
 include(__DIR__ . '/config/config.php');
 
 
-//
-// Autoload
-//
-spl_autoload_register(function($class){
-	$file = str_replace(array('_', '\\'), '/', $class) . '.php';
-	foreach(explode(PATH_SEPARATOR, get_include_path()) as $path)
-	{
-		if (is_file("$path/$file")) { include("$path/$file"); break; }
-	}
-});
-
 
 $response = null;
 
@@ -50,7 +39,7 @@ try
 		$path_info = (string) @$_SERVER['PATH_INFO'];
 	}
 
-	$request	= new off\request\Request($path_info, $conf_default_controller, $conf_default_action);
+	$request	= new off\request\Request($path_info);
 
 	$obj_name	= ucfirst(strtolower( $request->getController() )).'Controller';
 	$obj_name	= !class_exists ( $obj_name, true ) ? ucfirst($conf_default_error_controller).'Controller' : $obj_name;

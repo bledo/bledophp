@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cwd=`dirname $0`
+
+phpunit --bootstrap $cwd/../config/config.php $@
+
+
