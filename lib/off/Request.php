@@ -1,31 +1,28 @@
 <?php
-namespace off\request;
+namespace off;
 
 class Request
 {
-	public static $defaultController = 'index';
-	public static $defaultAction = 'index';
-
 	protected $_controller;
 	protected $_action;
 	protected $_get = array();
 	protected $_post = array();
 	protected $_cookie = array();
 
-	public function __construct($request_url)
+	public function __construct($request_url, $default_controller, $default_action)
 	{
 		$parts = explode('/', trim($request_url, '/'));
 
 		// Controller
 		$this->_controller = array_shift($parts);
 		if (!$this->_controller) {
-			$this->_controller	= self::$defaultController;
+			$this->_controller	= $default_controller;
 		}
 
 		// action
 		$this->_action = array_shift($parts);
 		if (!$this->_action) {
-			$this->_action		= self::$defaultAction;
+			$this->_action		= $default_action;
 		}
 
 		// path params

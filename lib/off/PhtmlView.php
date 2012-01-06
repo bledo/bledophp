@@ -1,16 +1,16 @@
 <?php
-namespace off\view;
+namespace off;
 
 class PhtmlView implements View
 {
 	/**
 	 * @var array
 	 */
-	private $vals;
+	private $vals = array();
 	
-	public function __construct($assoc=array())
+	public function __construct($view_dir)
 	{
-		$this->vals = $assoc;
+		$this->view_dir = $view_dir;
 	}
 
 	/**
@@ -56,7 +56,7 @@ class PhtmlView implements View
 	 */
 	public function fetch($file) {
 		ob_start();
-		include($file);
+		include($this->view_dir .'/'. trim($file, '/'));
 		return ob_get_clean();
 	}
 
@@ -68,5 +68,14 @@ class PhtmlView implements View
 	 */
 	public function is_set($k) {
 		return isset($this->vals[$k]);
+	}
+
+	/**
+	 * Get all the values
+	 *
+	 * @return array
+	 */
+	public function getVAls() {
+		return $this->vals;
 	}
 }

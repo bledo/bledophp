@@ -1,5 +1,5 @@
 <?php
-namespace off\response;
+namespace off;
 
 interface Response
 {
@@ -11,9 +11,9 @@ interface Response
 	
 	/**
 	 * 
-	 * @param \off\request\Request $request
+	 * @param \off\Request $request
 	 */
-	public function respond(\off\request\Request $request);
+	public function respond(Request $request);
 
 	/**
 	 * Read : http://us.php.net/manual/en/function.setcookie.php

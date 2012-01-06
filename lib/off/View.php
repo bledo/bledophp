@@ -1,5 +1,5 @@
 <?php
-namespace off\view;
+namespace off;
 
 interface View
 {
@@ -31,4 +31,11 @@ interface View
 	 * @return bool
 	 */
 	public function is_set($k);
+
+	/**
+	 * Get all the values
+	 *
+	 * @return array
+	 */
+	public function getVals();
 }

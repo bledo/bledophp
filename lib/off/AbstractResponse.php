@@ -1,5 +1,5 @@
 <?php
-namespace off\response;
+namespace off;
 
 abstract class AbstractResponse implements Response
 {
@@ -15,7 +15,7 @@ abstract class AbstractResponse implements Response
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see off\response.Response::setHeader()
+	 * @see off.Response::setHeader()
 	 */
 	public function setHeader($str) {
 		$this->_headers[] = $str;
@@ -23,7 +23,7 @@ abstract class AbstractResponse implements Response
 
 	/**
 	 * (non-PHPdoc)
-	 * @see off\response.Response::setCookie()
+	 * @see off.Response::setCookie()
 	 */
 	public function setCookie($name, $value, $expire=0, $path='', $domain='', $secure=false, $httponly=false)
 	{

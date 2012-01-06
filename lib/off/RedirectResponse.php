@@ -1,5 +1,5 @@
 <?php
-namespace off\response;
+namespace off;
 
 class RedirectResponse extends AbstractResponse
 {
@@ -8,7 +8,7 @@ class RedirectResponse extends AbstractResponse
 		$this->setHeader('Location: ' . $url);
 	}
 
-	public function respond(\off\request\Request $request)
+	public function respond(Request $request)
 	{
 		$this->_sendHeaders();
 	}

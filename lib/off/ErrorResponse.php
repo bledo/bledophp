@@ -1,5 +1,5 @@
 <?php
-namespace off\response;
+namespace off;
 
 class ErrorResponse extends AbstractResponse
 {
@@ -9,7 +9,7 @@ class ErrorResponse extends AbstractResponse
 		$this->e = $e;
 	}
 	
-	public function respond(\off\request\Request $request) {
+	public function respond(Request $request) {
 		$this->_sendHeaders();
 		echo $this->e;
 	}

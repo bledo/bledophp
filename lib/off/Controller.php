@@ -1,7 +1,6 @@
 <?php
-namespace off\controller;
+namespace off;
 
-use off\request\Request;
 
 
 interface Controller {

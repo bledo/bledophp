@@ -1,8 +1,5 @@
 <?php
-namespace off\controller;
-
-use off\request\Request;
-use off\exception\PageNotFoundException;
+namespace off;
 
 /**
  * Base controller class.
