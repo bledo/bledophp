@@ -64,13 +64,13 @@ class Phtml extends AbstractResponse implements \bledo\mvc\view\View
 		$this->_sendHeaders();
 		
 		//
-		if (!$this->is_set('main'))
+		if (!$this->is_set('content'))
 		{
 			if (empty($this->action_view)) {
 				$this->action_view = $request->getController().'/'.$request->getAction().'.phtml';
 			}
 			
-			$this->assign('main', $this->fetch($this->action_view));
+			$this->assign('content', $this->fetch($this->action_view));
 		}
 		
 		//

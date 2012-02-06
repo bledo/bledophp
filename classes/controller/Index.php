@@ -30,7 +30,7 @@ class Index extends \bledo\mvc\BaseController
 	public function index()
 	{
 		$resp = new \bledo\mvc\response\Phtml(VIEWDIR);
-		//$resp->assign('main');
+		//$resp->assign('content');
 		return $resp;
 	}
 }
