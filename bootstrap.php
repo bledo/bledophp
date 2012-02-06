@@ -18,9 +18,10 @@ You should have received a copy of the GNU General Public License
 along with Bledo Framework.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/* Bootstrap */
-include(__DIR__.'/../bootstrap.php');
+/* Config */
+include(__DIR__.'/config.php');
 
-/* Run Framework */
-\bledo\mvc\Fw::run();
+/* Enable Autoload */
+include(__DIR__.'/classes/bledo/Autoload.php');
+\bledo\Autoload::enable(true, true);
 

@@ -18,12 +18,8 @@ You should have received a copy of the GNU General Public License
 along with Bledo Framework.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/* Config */
-include(__DIR__.'/../config.php');
-
-/* Enable Autoload */
-include(__DIR__.'/../classes/bledo/Autoload.php');
-\bledo\Autoload::enable(true, true);
+/* Bootstrap */
+include(__DIR__.'/../bootstrap.php');
 
 $resp = new \bledo\mvc\response\Phtml(VIEWDIR, 'error.phtml', 'error/404.phtml');
 $resp->respond(new \bledo\mvc\Request('error', 'index', 'index'));
