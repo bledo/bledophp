@@ -77,8 +77,8 @@ class Fw
 			$response = $obj->errorResponse($request, $e);
 		}
 
-		echo ob_get_clean();
 		$response->respond($request);
+		echo ob_get_clean();
 	}
 
 

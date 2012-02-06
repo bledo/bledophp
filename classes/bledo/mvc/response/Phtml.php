@@ -20,7 +20,7 @@ along with Bledo Framework.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace bledo\mvc\response;
 
-class Phtml extends AbstractResponse implements \bledo\mvc\View
+class Phtml extends AbstractResponse implements \bledo\mvc\view\View
 {
 	/**
 	 * 
@@ -33,6 +33,12 @@ class Phtml extends AbstractResponse implements \bledo\mvc\View
 	 * @var string
 	 */
 	public $action_view;
+
+
+	/**
+	 * @var \bledo\mvc\view\Phtml
+	 */
+	private $phtml;
 	
 	/**
 	 * 
@@ -42,7 +48,8 @@ class Phtml extends AbstractResponse implements \bledo\mvc\View
 	 */
 	public function __construct($viewDir, $layout='layout.phtml', $view=null)
 	{
-		$this->view_dir = $viewDir;
+		
+		$this->phtml = new \bledo\mvc\view\Phtml($viewDir);
 		$this->layout = $layout;
 		$this->action_view = $view;
 	}
@@ -66,26 +73,14 @@ class Phtml extends AbstractResponse implements \bledo\mvc\View
 			$this->assign('main', $this->fetch($this->action_view));
 		}
 		
-
 		//
 		echo $this->fetch($this->layout);
 	}
 
 
-
 	//
-	// \bledo\mvc\View implementation
+	// \bledo\mvc\view\View implementation
 	//
-
-	/**
-	 * @var string Directory where all the view templates are stored
-	 */
-	private $view_dir;
-
-	/**
-	 * @var array
-	 */
-	private $vals = array();
 
 	/**
 	 *
@@ -93,17 +88,8 @@ class Phtml extends AbstractResponse implements \bledo\mvc\View
 	 */
 	public function get($k)
 	{
-		return @$this->vals[$k];
+		return $this->phtml->get($k);
 	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function __get($k) {
-		return $this->get($k);
-	}
-
 
 	/**
 	 *
@@ -111,16 +97,7 @@ class Phtml extends AbstractResponse implements \bledo\mvc\View
 	 * @param mixed $k
 	 */
 	public function assign($k, $v=null) {
-		$this->vals[$k] = $v;
-	}
-
-	/**
-	 *
-	 * @param string $k
-	 * @param mixed $k
-	 */
-	public function __set($k, $v) {
-		$this->assign($k, $v);
+		$this->phtml->assign($k, $v);
 	}
 
 	/**
@@ -129,13 +106,7 @@ class Phtml extends AbstractResponse implements \bledo\mvc\View
 	 * @return string
 	 */
 	public function fetch($file) {
-		ob_start();
-		$inc_file = $this->view_dir .'/'. trim($file, '/');
-		if (is_file($inc_file))
-		{
-			include($inc_file);
-		}
-		return ob_get_clean();
+		return $this->phtml->fetch($file);
 	}
 
 	/**
@@ -145,7 +116,7 @@ class Phtml extends AbstractResponse implements \bledo\mvc\View
 	 * @return bool
 	 */
 	public function is_set($k) {
-		return isset($this->vals[$k]);
+		return $this->phtml->is_set($k);
 	}
 
 	/**
@@ -153,7 +124,7 @@ class Phtml extends AbstractResponse implements \bledo\mvc\View
 	 *
 	 * @return array
 	 */
-	public function getVAls() {
-		return $this->vals;
+	public function getVals() {
+		return $this->phtml->getVals();
 	}
 }

@@ -18,11 +18,43 @@ You should have received a copy of the GNU General Public License
 along with Bledo Framework.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace bledo\mvc;
+namespace bledo\mvc\view;
 
-class PhtmlView implements View
+interface View
 {
+	/**
+	 *
+	 * @param string $k
+	 * @return mixed
+	 */
+	public function get($k);
 	
+	/**
+	 *
+	 * @param string $k
+	 * @param mixed $k
+	 */
+	public function assign($k, $v=null);
+
+	/**
+	 *
+	 * @param string $file The template to parse
+	 * @return string
+	 */
+	public function fetch($file);
+
+	/**
+	 * Checks if a value is set
+	 *
+	 * @param string $k
+	 * @return bool
+	 */
+	public function is_set($k);
+
+	/**
+	 * Get all the values
+	 *
+	 * @return array
+	 */
+	public function getVals();
 }
-
-
