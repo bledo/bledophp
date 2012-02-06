@@ -1,1 +1,17 @@
-Nothing at this time
+
+Bledo Framework
+- Now it includes a Html5 Boilerplate template
+- Framework was refactored to remove inconsistencies
+
+
+
+Licensing:
+  Bledo Framework	: GPLv3
+    Includes :
+      HTML5 Boilerplate	: Public Domain
+        Includes :
+	  jQuery	: MIT/GPL license
+	  Modernizr     : MIT/BSD license
+	  Respond.js    : MIT/GPL license
+	  Normalize.css : Public Domain
+	
