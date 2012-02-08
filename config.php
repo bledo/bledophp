@@ -25,4 +25,17 @@ set_include_path( __DIR__ .'/classes' );
 define('VIEWDIR', __DIR__ . '/view');
 define('TMPDIR', __DIR__ . '/tmp');
 
+//
+// log
+//
+$log = \bledo\logger\Logger::getInstance();
+
+//$writer = new \bledo\logger\FirePhpWriter();
+//$writer->setLevel('debug');
+//$log->addWriter($writer);
+
+$writer = new \bledo\logger\FileWriter();
+$writer->setLevel('debug');
+$writer->setFile(TMPDIR.'/app.log');
+$log->addWriter($writer);
 
