@@ -18,10 +18,11 @@ You should have received a copy of the GNU General Public License
 along with Bledo Framework.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/* Enable Autoload */
-include(__DIR__.'/classes/bledo/Autoload.php');
-\bledo\Autoload::enable(true, true);
+namespace bledo\logger;
 
-/* Config */
-include(__DIR__.'/config.php');
+interface Writer
+{
+	public function setLevel($level);
+	public function write($int_level, $str_level, $args);
+}
 
