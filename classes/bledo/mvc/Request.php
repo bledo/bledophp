@@ -27,10 +27,12 @@ class Request
 	protected $_params = array();
 	protected $_post = array();
 	protected $_cookie = array();
+	protected $_rurl;
 
 	public function __construct($request_url, $default_controller, $default_action)
 	{
-		$parts = explode('/', trim($request_url, '/'));
+		$this->_rurl = trim($request_url, '/');
+		$parts = explode('/', $this->_rurl);
 
 		// Controller
 		$this->_controller = array_shift($parts);
@@ -59,6 +61,11 @@ class Request
 		{
 			throw new PageNotFoundException("Page $this->_controller/$this->_action not found");
 		}
+	}
+
+	public function getRequestUrl()
+	{
+		return $this->_rurl;
 	}
 
 	public function setParam($k, $v)
