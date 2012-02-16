@@ -27,7 +27,6 @@ class Fw
 	public static $conf_controller_namespace = 'controller';
 	public static $conf_controller_suffix = '';
 	public static $conf_controller_prefix = '';
-	public static $conf_base_url;
 
 	public static function run()
        	{
@@ -46,7 +45,7 @@ class Fw
 			}
 
 			// remove base url
-			$path_info	= str_replace(trim(self::$conf_base_url, '/'), '', trim($path_info, '/'));
+			$path_info	= str_replace(trim(BASEURL, '/'), '', trim($path_info, '/'));
 
 			// Request
 			$request	= new \bledo\mvc\Request($path_info, self::$conf_default_controller, self::$conf_default_controller_action);

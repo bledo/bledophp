@@ -62,6 +62,7 @@ class Phtml extends AbstractResponse implements \bledo\mvc\view\View
 	{
 		//
 		$this->_sendHeaders();
+		$this->assign('request', $request);
 		
 		//
 		if (!$this->is_set('content'))
