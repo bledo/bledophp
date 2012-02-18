@@ -27,6 +27,7 @@ class Fw
 	public static $conf_controller_namespace = 'controller';
 	public static $conf_controller_suffix = '';
 	public static $conf_controller_prefix = '';
+	public static $conf_controller_base_path = '';
 
 	public static function run()
        	{
@@ -48,7 +49,14 @@ class Fw
 			$path_info	= str_replace(trim(BASEURL, '/'), '', trim($path_info, '/'));
 
 			// Request
-			$request	= new \bledo\mvc\Request($path_info, self::$conf_default_controller, self::$conf_default_controller_action);
+			$scheme = empty($_SERVER['HTTPS']) ? 'http' : 'https';
+			$request	= new \bledo\mvc\HttpRequest(
+						$scheme.'://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].$_SERVER['REQUEST_URI'],
+						self::$conf_controller_base_path,
+						self::$conf_default_controller,
+						self::$conf_default_controller_action
+					);
+
 
 			// check controller name
 			$controller = $request->getController();
