@@ -58,10 +58,9 @@ class Phtml extends AbstractResponse implements \bledo\mvc\view\View
 	 * (non-PHPdoc)
 	 * @see Response::respond()
 	 */
-	public function respond(\bledo\mvc\Request $request)
+	public function getBody(\bledo\mvc\Request $request)
 	{
 		//
-		$this->_sendHeaders();
 		$this->assign('request', $request);
 		
 		//
@@ -75,7 +74,7 @@ class Phtml extends AbstractResponse implements \bledo\mvc\view\View
 		}
 		
 		//
-		echo $this->fetch($this->layout);
+		return $this->fetch($this->layout);
 	}
 
 

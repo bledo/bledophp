@@ -26,12 +26,11 @@ class Json extends AbstractResponse
 	public function __construct($arr=array())
 	{
 		$this->json = $arr;
+		$this->setHeader('Content-Type: application/json');
 	}
 
-	public function respond(\bledo\mvc\Request $request)
+	public function getBody(\bledo\mvc\Request $request)
 	{
-		$this->setHeader('Content-Type: application/json');
-		$this->_sendHeaders();
-		echo json_encode($this->json);
+		return json_encode($this->json);
 	}
 }

@@ -46,23 +46,24 @@ abstract class AbstractResponse implements Response
 	 */
 	public function setCookie($name, $value, $expire=0, $path='', $domain='', $secure=false, $httponly=false)
 	{
-		$this->_cookie[] = array($name, $value, $expire, $path, $domain, $secure, $httponly);
+		$cookie = new \bledo\mvc\Cookie();
+		$cookie->name = $name;
+		$cookie->value = $value;
+		$cookie->expire = $expire;
+		$cookie->path = $path;
+		$cookie->domain = $domain;
+		$cookie->secure = $secure;
+		$cookie->httponly = $httponly;
+		$this->_cookie[$name] = $cookie;
 	}
-	
-	/**
-	 * prints out all headers
-	 */
-	protected function _sendHeaders()
+
+	public function getHeaders(\bledo\mvc\Request $request)
 	{
-		//
-		foreach ($this->_headers as $header) {
-			header($header);
-		}
-
-		//
-		foreach ($this->_cookie as $c) {
-			call_user_func_array('setcookie', $c);
-		}
+		return $this->_headers;
 	}
 
+	public function getCookies(\bledo\mvc\Request $request)
+	{
+		return $this->_cookie;
+	}
 }

@@ -24,15 +24,16 @@ interface Response
 {
 	/**
 	 * 
-	 * @param string $str
+	 * @return array
 	 */
-	public function setHeader($str);
+	public function getHeaders(\bledo\mvc\Request $request);
 	
 	/**
 	 * 
 	 * @param \bledo\mvc\Request $request
+	 * @return string
 	 */
-	public function respond(\bledo\mvc\Request $request);
+	public function getBody(\bledo\mvc\Request $request);
 
 	/**
 	 * Read : http://us.php.net/manual/en/function.setcookie.php
@@ -45,5 +46,12 @@ interface Response
 	 * @param bool $secure
 	 * @param bool $httponly
 	 */
-	public function setCookie($name, $value, $expire=0, $path='', $domain='', $secure=false, $httponly=false);
+	//public function setCookie($name, $value, $expire=0, $path='', $domain='', $secure=false, $httponly=false);
+
+	/**
+	 * Returns an array of bledo\mvc\Cookie 
+	 *
+	 * @return array
+	 */
+	public function getCookies(\bledo\mvc\Request $request);
 }

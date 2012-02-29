@@ -28,8 +28,7 @@ class Error extends AbstractResponse
 		$this->e = $e;
 	}
 	
-	public function respond(\bledo\mvc\Request $request) {
-		$this->_sendHeaders();
-		echo $this->e;
+	public function getBody(\bledo\mvc\Request $request) {
+		return ''.$this->e;
 	}
 }

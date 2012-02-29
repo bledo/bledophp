@@ -102,6 +102,7 @@ class HttpRequest implements Request
 		if ( ($prot == 'https' && $port == ':443') || ($prot == 'http' && $port == ':80')) { $port = ''; }
 		return $prot.'://'.$_SERVER['SERVER_NAME'].$port.$_SERVER['REQUEST_URI'];
 	}
+
 	public function getUri() {
 		return $this->_getRequestUri();
 	}

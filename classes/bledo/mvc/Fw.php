@@ -33,6 +33,16 @@ class Fw
        	{
 		ob_start();
 		$response = null;
+
+		// Request
+		$scheme = empty($_SERVER['HTTPS']) ? 'http' : 'https';
+		$request	= new \bledo\mvc\HttpRequest(
+					$scheme.'://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].$_SERVER['REQUEST_URI'],
+					self::$conf_controller_base_path,
+					self::$conf_default_controller,
+					self::$conf_default_controller_action
+				);
+
 		try
 		{
 			// REDIRECT_URL : mod_rewrite
@@ -48,14 +58,6 @@ class Fw
 			// remove base url
 			$path_info	= str_replace(trim(BASEURL, '/'), '', trim($path_info, '/'));
 
-			// Request
-			$scheme = empty($_SERVER['HTTPS']) ? 'http' : 'https';
-			$request	= new \bledo\mvc\HttpRequest(
-						$scheme.'://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].$_SERVER['REQUEST_URI'],
-						self::$conf_controller_base_path,
-						self::$conf_default_controller,
-						self::$conf_default_controller_action
-					);
 
 
 			// check controller name
@@ -84,8 +86,20 @@ class Fw
 			$response = $obj->errorResponse($request, $e);
 		}
 
-		$response->respond($request);
+
+		// cookies
+		foreach ($response->getCookies($request) as $c) {
+			setcookie($c->name, $c->value, $c->expire, $c->path, $c->domain, $c->secure, $c->httponly);
+		}
+
+		// raw headers
+		foreach ($response->getHeaders($request) as $header) {
+			header($header);
+		}
+	
+		// body
 		echo ob_get_clean();
+		echo $response->getBody($request);
 	}
 
 

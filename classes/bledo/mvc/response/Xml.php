@@ -26,17 +26,16 @@ class Xml extends \bledo\mvc\response\AbstractResponse
 	public function __construct($xml)
 	{
 		$this->_xml = $xml;
+		$this->setHeader("Content-Type: application/xml");
 	}
 	
 	/**
 	 * 
 	 * @param \bledo\mvc\Request $request
 	 */
-	public function respond(\bledo\mv\Request $request)
+	public function getBody(\bledo\mvc\Request $request)
 	{
-		$this->setHeader("Content-type: text/xml");
-		$this->_sendHeaders();
-		
+		$out = '';
 		if (is_array($this->_xml))
 		{
 			if (count($this->_xml) > 1)
@@ -49,21 +48,23 @@ class Xml extends \bledo\mvc\response\AbstractResponse
 			{
 				list($root, $arr) = each($this->_xml);
 			}
-			echo $this->_arrayToXml($arr, new \SimpleXMLElement('<'.$root.'/>'))->asXML();
+			$out = $this->_arrayToXml($arr, new \SimpleXMLElement('<'.$root.'/>'))->asXML();
 		}
 		else if ($this->_xml instanceof \SimpleXMLElement )
 		{
-			echo $this->_xml->asXML();
+			$out = $this->_xml->asXML();
 		}
 		else if(is_string($this->_xml))
 		{
 			$xml = simplexml_load_string($this->_xml);
-			echo $xml->asXML();
+			$out = $xml->asXML();
 		}
 		else
 		{
 			throw new \Exception("Unknown XML format");
 		}
+
+		return $out;
 	}
 	
 	/**
